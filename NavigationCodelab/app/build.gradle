@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2022 The Android Open Source Project
  *
@@ -94,7 +96,7 @@ dependencies {
     implementation "androidx.compose.foundation:foundation"
     implementation "androidx.compose.material:material"
     implementation "androidx.compose.material:material-icons-extended"
-    implementation "androidx.activity:activity-compose:1.7.1"
+    implementation "androidx.activity:activity-compose:1.7.2"
     debugImplementation "androidx.compose.ui:ui-tooling"
 
     // Testing dependencies
@@ -107,7 +109,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         // Treat all Kotlin warnings as errors
         allWarningsAsErrors = true
