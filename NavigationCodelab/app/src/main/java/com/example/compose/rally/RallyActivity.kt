@@ -23,9 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -33,7 +30,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.compose.rally.ui.accounts.AccountsScreen
+import com.example.compose.rally.ui.bills.BillsScreen
 import com.example.compose.rally.ui.components.RallyTabRow
+import com.example.compose.rally.ui.overview.OverviewScreen
 import com.example.compose.rally.ui.theme.RallyTheme
 
 /**
@@ -55,7 +55,8 @@ fun RallyApp() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
-        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
+        val currentScreen =
+            rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
         Scaffold(
             topBar = {
                 RallyTabRow(
@@ -73,13 +74,21 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
             ) {
                 composable(route = Overview.route) {
-                    Overview.screen()
+                    OverviewScreen(
+                        onClickSeeAllAccounts = {
+                            navController.navigateSingleTopTo(Accounts.route)
+                        }
+                    )
                 }
-                composable(route = Overview.route) {
-                    Accounts.screen()
+                composable(route = Accounts.route) {
+                    AccountsScreen(
+                        onAccountClick = {
+                            navController.navigateSingleTopTo(Bills.route)
+                        }
+                    )
                 }
-                composable(route = Overview.route) {
-                    Bills.screen()
+                composable(route = Bills.route) {
+                    BillsScreen()
                 }
             }
         }
